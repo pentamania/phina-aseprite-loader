@@ -1,4 +1,5 @@
 import phina from 'phina.js';
+import {createFramesByTagProperty} from './lib';
 var ASSET_TYPE = "aseprite";
 
 /**
@@ -103,12 +104,11 @@ phina.define('phina.asset.AsepriteSpriteSheet', {
       frequency: 1,
     };
 
-    /* TODO: set next */
+    /* TODO: how to set next? */
     frameTags.forEach(function(tag) {
       this.animations[tag.name] = {
-        frames: [].range(tag.from, tag.to+1),
+        frames: createFramesByTagProperty(tag),
         // next: "default",
-        // next: tag.name,
       };
     }.bind(this));
   },

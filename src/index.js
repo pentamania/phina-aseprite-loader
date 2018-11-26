@@ -13,22 +13,42 @@ phina.define('phina.asset.AsepriteSpriteSheet', {
    */
   init: function() {
     this.superInit();
-    this.pivot;
     this._maxFrameCount = 1;
   },
 
+  /**
+   * setup
+   * @param  {AsepriteExportedJson} params
+   * @return {this}
+   */
   setup: function(params) {
     this._setupFrame(params.frames);
     this._setupAnim(params.meta.frameTags);
 
-    // setupPivot(WIP)
-    var pivotSliceData = params.meta.slices.find(function(item) {
-      return item.name === "Pivot";
-    });
-    if (pivotSliceData) {
-      this.pivot = pivotSliceData.keys[0].pivot;
+    /* experimental: import slices */
+    this.slices = {};
+    if (params.meta.slices) {
+      params.meta.slices.forEach(function(sliceProp) {
+        this.slices[sliceProp.name] = sliceProp;
+      }.bind(this));
     }
+
     return this;
+  },
+
+  /**
+   * experimental: get slice property's keys
+   * @param  {string} name  name of slice
+   * @param  {number} index keys index
+   * @return {sliceData}
+   */
+  getSliceData: function(name, index) {
+    index = index || 0;
+    if (!this.slices[name]) {
+      console.warn("[phina-aseprite-loader]: Slice name '"+name+"' doesn't exist.");
+      return null;
+    }
+    return this.slices[name].keys[index];
   },
 
   _load: function(resolve) {
@@ -100,6 +120,15 @@ phina.define('phina.asset.AsepriteSpriteSheet', {
   getAnimation: function(name) {
     name = (name !== undefined) ? name : "default";
     return this.animations[name];
+  },
+
+  _accessor: {
+    pivot: {
+      get: function() {
+        if (!this.slices.pivot) return null;
+        return this.slices.pivot.keys[0].pivot;
+      }
+    }
   },
 
 });

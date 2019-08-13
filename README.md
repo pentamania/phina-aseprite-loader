@@ -1,16 +1,14 @@
 phina-aseprite-loader
 ===
 
-[phina.js](https://phinajs.com/) plugin to load and use [aseprite](https://www.aseprite.org/) exported sprite sheet.
-
-# Usage
+[phina.js](https://phinajs.com/) plugin to load and use [aseprite](https://www.aseprite.org/) exported sprite-sheet.
 
 ## Install
 
-```npm install -S pentamania/phina-aseprite-loader```
+```npm install phina-aseprite-loader```
 
 ```js
-import phina from 'phina.js';
+import * as phina from 'phina.js';
 import "phina-aseprite-loader";
 ```
 
@@ -22,8 +20,15 @@ or
 <script src='path/to/phina-aseprite-loader.js'></script>
 ```
 
+This plugin is also [available in jsDelivr](https://www.jsdelivr.com/package/npm/phina-aseprite-loader).
+
+```html
+<script src='https://cdn.jsdelivr.net/npm/phina.js@0.2.2/build/phina.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/phina-aseprite-loader@latest/dist/phina-aseprite-loader.min.js'></script>
+```
+
 ## Example
-Almost same as built-in spritesheet class.
+Almost same as built-in FrameAnimation class.
 
 ```js
 phina.main(function() {
@@ -48,11 +53,16 @@ phina.define('MainScene', {
   init: function(options) {
     this.superInit(options);
 
-    var tomapiko = phina.display.Sprite('tomapiko');
+    var sprite = this.sprite = phina.display.Sprite('tomapiko')
+      .setPosition(this.width, this.height*0.5)
+      .addChildTo(this)
+    ;
     var animation = phina.accessory.FrameAnimation("tomapiko_ss")
-    .attachTo(tomapiko);
-    animation.gotoAndPlay("walk");
+      .attachTo(sprite);
+    animation.setNext("walk", "walk"); // infinite looping of walk animation
+    animation.gotoAndPlay("walk"); // play animation!
   },
+
 });
 ```
 

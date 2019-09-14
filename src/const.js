@@ -1,0 +1,1 @@
+export var ASSET_TYPE_KEY = "aseprite";

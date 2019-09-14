@@ -1,6 +1,6 @@
 import phina from 'phina.js';
 import {createFramesByTagProperty} from './lib';
-var ASSET_TYPE = "aseprite";
+import {ASSET_TYPE_KEY} from './const.js';
 
 /**
  * @class phina.asset.AsepriteSpriteSheet
@@ -134,7 +134,7 @@ phina.define('phina.asset.AsepriteSpriteSheet', {
 });
 
 /* extend loader */
-phina.asset.AssetLoader.register(ASSET_TYPE, function(key, path) {
+phina.asset.AssetLoader.register(ASSET_TYPE_KEY, function(key, path) {
   return phina.asset.AsepriteSpriteSheet().load(path);
 });
 
@@ -144,7 +144,7 @@ phina.asset.AssetLoader.register(ASSET_TYPE, function(key, path) {
 phina.accessory.FrameAnimation.prototype.init = function(ss) {
   this.superInit();
 
-  this.ss = phina.asset.AssetManager.get('spritesheet', ss) || phina.asset.AssetManager.get(ASSET_TYPE, ss);
+  this.ss = phina.asset.AssetManager.get('spritesheet', ss) || phina.asset.AssetManager.get(ASSET_TYPE_KEY, ss);
   if (!this.ss) {
     console.error("[phina.js] spritesheet '{0}' doesn't exist.".format(ss));
     return;
@@ -225,4 +225,5 @@ phina.accessory.FrameAnimation.prototype.setNext = function(targetAnim, next) {
   return this;
 }
 
+export {default as AsepriteSprite} from "./Sprite.js";
 export default phina;

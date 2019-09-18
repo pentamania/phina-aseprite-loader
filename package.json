@@ -1,6 +1,6 @@
 {
   "name": "phina-aseprite-loader",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "phina.js plugin to load aseprite exported json file",
   "main": "dist/phina-aseprite-loader.js",
   "scripts": {
